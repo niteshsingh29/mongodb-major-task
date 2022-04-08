@@ -6,32 +6,29 @@ import Login from "./components/Login";
 import Samiti from "./components/Schools/Samiti";
 import Modern from "./components/Schools/Modern";
 import Stmarks from "./components/Schools/Stmarks";
-import TeacherModern from "./components/Teacher/Teacher"
-import TeacherSamiti from "./components/Teacher/TeacherSamiti"
-import TeacherSt from "./components/Teacher/TeacherSt"
-
+import TeacherModern from "./components/Teacher/Teacher";
+import TeacherSamiti from "./components/Teacher/TeacherSamiti";
+import TeacherSt from "./components/Teacher/TeacherSt";
+import Createschool from "./components/pages/Createschool";
+import Navbar from "./components/Navbar/Navbar";
+import Createclass from "./components/pages/Createclass";
+import Assignteacher from "./components/pages/Assignteacher"
 
 
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/Schools" element={<Schools />}></Route>
-        <Route path="/" element={<Login />}></Route>
-        <Route path="/Samiti" element={<Samiti />}></Route>
-        <Route path="/Modern" element={<Modern />}></Route>
+    <>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route exact path="/CreateSchool" element={<Createschool />} />
+          <Route exact path="/CreateClass" element={<Createclass />} />
+          <Route exact path="/Assignteacher" element={<Assignteacher />} />
 
-        <Route path="/st" element={<Stmarks />}></Route>
-        {/* <Route path="/teacher-modern" element={<TeacherModern />}></Route>
-        <Route path="/teacher-modern" element={<TeacherModern />}></Route>
-        <Route path="/teacher-samiti" element={<TeacherSamiti />}></Route>
-        <Route path="/teacher-st" element={<TeacherSt />}></Route> */}
-
-
-
-      </Routes>
-    </Router>
+        </Routes>
+      </Router>
+    </>
   );
 }
 

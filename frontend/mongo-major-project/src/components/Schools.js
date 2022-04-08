@@ -1,24 +1,22 @@
-import { Button, Offcanvas, Dropdown } from "react-bootstrap";
+import { FormControl, FormLabel, Select } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Carousel from "react-bootstrap/Carousel";
 import axios from "axios";
 
 const Schools = () => {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const [state, setState] = useState([]);
   const [clas, setClas] = useState([]);
+  const [teacher, setTeacher] = useState([]);
+  const [selectedValue, setSelectedValue] = useState(null);
+  const [selectedclas, setSelectedclas] = useState(null);
+  const [teacherstate, setTeacherstate] = useState([]);
 
-
+  console.log(state);
   useEffect(() => {
     axios
       .get("http://localhost:8000/school")
       .then((response) => {
         setState(response.data);
-        console.log(response.data);
       })
       .catch((err) => {
         console.log(err.message);
@@ -30,74 +28,70 @@ const Schools = () => {
       .get("http://localhost:8000/class")
       .then((response) => {
         setClas(response.data);
-        console.log(response.data);
       })
       .catch((err) => {
         console.log(err.message);
       });
   }, []);
 
+  const handleSubmit = () => {
+    axios
+      .post("http://localhost:8000/teacher", {
+        selectedValue: selectedValue,
+        selectedclas: selectedclas,
+      })
+      .then((response) => {
+        console.log("_id sent success");
+        setTeacherstate(response.data);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.log(err.mesage);
+      });
+  };
+  // if(teacherstate.length == 0) {
+  //   console.log("yes")
+  // }
+  // else{
+  //   console.log("no")
+  // }
+
   return (
     <>
-      <Carousel>
-        <Carousel.Item interval={1000}>
-          <img
-            className="d-block w-100"
-            src="https://images.unsplash.com/photo-1595134561159-11a5fbf6b3f4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1329&q=80"
-            alt="First slide"
-          />
-          <Carousel.Caption style={{ marginBottom: "50px" }}>
-            <Button variant="primary" onClick={handleShow}>
-              See Schools List
-            </Button>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item interval={1000}>
-          <img
-            className="d-block w-100"
-            src="https://images.unsplash.com/photo-1595134561159-11a5fbf6b3f4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1329&q=80"
-            alt="Second slide"
-          />
-          <Carousel.Caption style={{ marginBottom: "50px" }}>
-            <Button variant="primary" onClick={handleShow}>
-              See Schools List
-            </Button>
-          </Carousel.Caption>
-        </Carousel.Item>
-      </Carousel>
+      <div className="container " style={{ marginTop: "150px" }}>
+        <FormControl>
+          <h1>Lets find teachers</h1>
+          <FormLabel htmlFor="schools">Schools</FormLabel>
+          <Select
+            placeholder="Select School"
+            onChange={(e) => setSelectedValue(e.target.value)}
+          >
+            {state.map((item) => (
+              <option value={item._id}>{item.schoolName}</option>
+            ))}
+          </Select>
 
-      <Offcanvas show={show} onHide={handleClose}>
-        <Offcanvas.Header closeButton>
-          <Offcanvas.Title style={{ fontSize: "37px" }}>
-            List of Schools
-          </Offcanvas.Title>
-        </Offcanvas.Header>
-        <Offcanvas.Body>
-          <Dropdown className="d-inline mx-2">
-            <Dropdown.Toggle id="dropdown-autoclose-true">
-              Select School
-            </Dropdown.Toggle>
+          <FormLabel htmlFor="class">Class</FormLabel>
+          <Select
+            placeholder="Select Class"
+            onChange={(e) => setSelectedclas(e.target.value)}
+          >
+            {clas.map((item) => (
+              <option value={item._id}>{item.class}</option>
+            ))}
+          </Select>
 
-            <Dropdown.Menu>
-              {state.map((item) => (
-                <Dropdown.Item>{item.schoolName}</Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
+          <button onClick={handleSubmit} className="btn btn-dark mt-5">
+            Submit
+          </button>
+        </FormControl>
 
-          <Dropdown className="d-inline mx-2">
-            <Dropdown.Toggle id="dropdown-autoclose-true">
-              Select Class
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu>
-              {clas.map((item) => (
-                <Dropdown.Item>{item.class}</Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
-        </Offcanvas.Body>
-      </Offcanvas>
+        {teacherstate.length == 0 ? (
+          <h1 className="mt-5 text-danger">no teacher assigned to this classs</h1>
+        ) : (
+          <h1 className="mt-5">{teacherstate[0].name}</h1>
+        )}
+      </div>
     </>
   );
 };
