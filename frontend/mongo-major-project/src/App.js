@@ -13,6 +13,7 @@ import Createschool from "./components/pages/Createschool";
 import Navbar from "./components/Navbar/Navbar";
 import Createclass from "./components/pages/Createclass";
 import Assignteacher from "./components/pages/Assignteacher";
+import Fetchdata from "./components/pages/Fetchdata"
 
 function App() {
   return (
@@ -23,6 +24,8 @@ function App() {
           <Route exact path="/CreateSchool" element={<Createschool />} />
           <Route exact path="/CreateClass" element={<Createclass />} />
           <Route exact path="/Assignteacher" element={<Assignteacher />} />
+          <Route exact path="/show" element={<Fetchdata/>} />
+
         </Routes>
       </Router>
     </>

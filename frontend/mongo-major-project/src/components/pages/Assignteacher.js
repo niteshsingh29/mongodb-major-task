@@ -63,6 +63,12 @@ const Assignteacher = () => {
       .catch((err) => {
         console.log(err.message);
       });
+      alert("Teacher assigned successfully")
+      setSchoolId(null);
+      setChecked([])
+      setTeacherName("")
+
+
   };
 
   const handleChange = (e) => {
@@ -128,7 +134,7 @@ const Assignteacher = () => {
                     control={
                       <Checkbox
                         color="warning"
-                        value={item._id}
+                        value={item.class}
                         onChange={(e) => handleChange(e)}
                       />
                     }

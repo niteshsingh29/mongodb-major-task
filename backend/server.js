@@ -38,7 +38,7 @@ app.post("/createSchool", async (req, res) => {
 app.get("/getclass", async (req, res) => {
   try {
     const result = await Cls.find();
-    console.log("cls", result)
+    console.log("cls", result);
     res.status(200).send(result);
   } catch (err) {
     console.log(err.message);
@@ -83,19 +83,19 @@ app.post("/getRespectiveclass", async (req, res) => {
     const class_strength = await Schoolclass.findOne({
       school_id: school_strength,
     });
-    
+
     const classes = await Cls.find({
-       class: { $lte: class_strength.class_id } 
+      class: { $lte: class_strength.class_id },
     });
     console.log("classes", classes);
-    res.status(200).send({...class_strength,  classes});
+    res.status(200).send({ ...class_strength, classes });
     // res.status(200).send(class_strength);
   } catch (err) {
     console.log(err.message);
   }
 });
 
-app.post("/teacherAssign", async(req, res) => {
+app.post("/teacherAssign", async (req, res) => {
   try {
     const school_id = req.body.schoolId;
     const selected_class = req.body.checked_classes;
@@ -104,8 +104,8 @@ app.post("/teacherAssign", async(req, res) => {
       school_id: school_id,
       selected_class: selected_class,
       teachername: teachername,
-    })
-    const result = await finalDocument.save()
+    });
+    const result = await finalDocument.save();
   } catch (err) {
     console.log(err.message);
   }
@@ -118,32 +118,14 @@ app.post("/teacherAssign", async(req, res) => {
 //     console.log(err.message);
 //   }
 // });
-// app.post("/teacher", async (req, res) => {
-//   try {
-//     const school = req.body.selectedValue;
-//     const clas = req.body.selectedclas;
-
-//     console.log(school);
-//     console.log(clas);
-//     const school_idvalid = mongoose.Types.ObjectId.isValid(school);
-//     const clas_idvalid = mongoose.Types.ObjectId.isValid(clas);
-//     console.log(clas_idvalid);
-
-//     if (school_idvalid && clas_idvalid) {
-//       const result = await Teacher.find({
-//         school_id: school,
-//       });
-//       console.log(result);
-//       const finalResult = result.filter((item) => item.class_id.includes(clas));
-//       console.log(finalResult);
-//       res.status(200).send(finalResult);
-//     } else {
-//       console.log("not a valid school/class id");
-//     }
-//   } catch (err) {
-//     console.log(err.message);
-//   }
-// });
+app.get("/teacher", async (req, res) => {
+  try {
+    const result = await Teacher.find();
+    res.status(200).send(result)
+  } catch (err) {
+    console.log(err.message);
+  }
+});
 
 app.listen(8000, (req, res) => {
   console.log("listening on port" + 8000);
