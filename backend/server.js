@@ -95,12 +95,17 @@ app.post("/getRespectiveclass", async (req, res) => {
   }
 });
 
-app.post("/teacherAssign", (req, res) => {
+app.post("/teacherAssign", async(req, res) => {
   try {
     const school_id = req.body.schoolId;
-    const selected_class = req.body.classId;
+    const selected_class = req.body.checked_classes;
     const teachername = req.body.teacherName;
-    console.log(school_id,selected_class, teachername);
+    const finalDocument = new Teacher({
+      school_id: school_id,
+      selected_class: selected_class,
+      teachername: teachername,
+    })
+    const result = await finalDocument.save()
   } catch (err) {
     console.log(err.message);
   }

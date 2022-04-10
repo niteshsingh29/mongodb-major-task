@@ -8,10 +8,12 @@ import Checkbox from "@mui/material/Checkbox";
 const Assignteacher = () => {
   const [schoolList, setSchoolList] = useState([]);
   const [schoolId, setSchoolId] = useState(null);
-  const [classList, setClassList] = useState([]);
-  const [classId, setClassId] = useState([]);
-  const [classStrength, setClassStrength] = useState([]);
+  const [classStrength, setClassStrength] = useState({
+    classes: [],
+  });
   const [teacherName, setTeacherName] = useState("");
+  const [ischecked, setChecked] = useState([]);
+
   useEffect(() => {
     axios
       .get("http://localhost:8000/getschools")
@@ -52,6 +54,7 @@ const Assignteacher = () => {
     axios
       .post("http://localhost:8000/teacherAssign", {
         schoolId: schoolId,
+        checked_classes: ischecked,
         teacherName: teacherName,
       })
       .then(() => {
@@ -60,6 +63,12 @@ const Assignteacher = () => {
       .catch((err) => {
         console.log(err.message);
       });
+  };
+
+  const handleChange = (e) => {
+    let data = ischecked;
+    data.push(e.target.value);
+    setChecked(data);
   };
 
   return (
@@ -117,7 +126,11 @@ const Assignteacher = () => {
                 return (
                   <FormControlLabel
                     control={
-                      <Checkbox checked={item.ischecked} name={item.class} />
+                      <Checkbox
+                        color="warning"
+                        value={item._id}
+                        onChange={(e) => handleChange(e)}
+                      />
                     }
                     label={item.class}
                   />

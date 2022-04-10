@@ -1,9 +1,12 @@
 const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema({
-  name: String,
   school_id: String,
-  class_id: [String]
+  selected_class: [String],
+  teachername: {
+    type: String,
+    unique: true
+  }
 });
 
 const Teacher = new mongoose.model("teachers", schema);
