@@ -60,11 +60,13 @@ const Createclass = () => {
       .catch((error) => {
         console.log(error.message);
       });
+      schoolId
+      ? alert("Class Strength has been created successfully")
+      : alert("Please create class first");
+
+
   };
 
-  const handleChangeschool = (e) => {
-    setSchoolId(e.target.value);
-  };
 
   return (
     <>
@@ -88,7 +90,7 @@ const Createclass = () => {
             </FormLabel>
             <Select
               placeholder="Select School"
-              onChange={handleChangeschool}
+              onChange={(e) => setSchoolId(e.target.value)}
               style={{ width: "500px", height: "50px" }}
               className="bg-warning text-dark"
             >
@@ -120,7 +122,7 @@ const Createclass = () => {
                 <option
                   className="text-dark"
                   style={{ backgroundColor: "white" }}
-                  value={item._id}
+                  value={item.class}
                 >
                   {item.class}
                 </option>

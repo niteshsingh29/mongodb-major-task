@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
-const Classes = require("./models/classes");
+const Cls = require("./models/cls");
 const School = require("./models/schools");
 const Teacher = require("./models/teachers");
 const path = require("path");
@@ -37,7 +37,8 @@ app.post("/createSchool", async (req, res) => {
 });
 app.get("/getclass", async (req, res) => {
   try {
-    const result = await Classes.find();
+    const result = await Cls.find();
+    console.log("cls", result)
     res.status(200).send(result);
   } catch (err) {
     console.log(err.message);
@@ -75,6 +76,43 @@ app.post("/sendid", async (req, res) => {
     console.log(err.message);
   }
 });
+
+app.post("/getRespectiveclass", async (req, res) => {
+  const school_strength = req.body.schoolId;
+  try {
+    const class_strength = await Schoolclass.findOne({
+      school_id: school_strength,
+    });
+    
+    const classes = await Cls.find({
+       class: { $lte: class_strength.class_id } 
+    });
+    console.log("classes", classes);
+    res.status(200).send({...class_strength,  classes});
+    // res.status(200).send(class_strength);
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
+app.post("/teacherAssign", (req, res) => {
+  try {
+    const school_id = req.body.schoolId;
+    const selected_class = req.body.classId;
+    const teachername = req.body.teacherName;
+    console.log(school_id,selected_class, teachername);
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+// app.post("/Assignclass", (req, res) => {
+//   try {
+//     const selected_class = req.body.classId;
+//     console.log(selected_class);
+//   } catch (err) {
+//     console.log(err.message);
+//   }
+// });
 // app.post("/teacher", async (req, res) => {
 //   try {
 //     const school = req.body.selectedValue;

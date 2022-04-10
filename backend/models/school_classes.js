@@ -1,14 +1,10 @@
 const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema({
-  school_id: {
-    type: String,
-    unique: true,
-    required: true,
-  },
-  class_id: String,
+  school_id: String,
+  class_id: Number,
 });
 
-const Schoolclass = new mongoose.model("schoolclass", schema);
+const Schoolclass = new mongoose.model("Schoolclass", schema);
 
 module.exports = Schoolclass;

@@ -40,6 +40,11 @@ const Navbar = () => {
                   AssignTeachers
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/testing">
+                  Testing
+                </Link>
+              </li>
             </ul>
             <form className="d-flex">
               <input
